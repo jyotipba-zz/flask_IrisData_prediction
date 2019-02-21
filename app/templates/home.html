@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div class="row">
+      <h4 class="intro bg-info mx-auto"> Iris Data ML prediction model</h4>
+    </div>
+
+
+
+    <div class="text-center">
+      <form action = "" method = post>
+        {{ form.hidden_tag() }}
+           <fieldset class="form-group" >
+              <legend>Feature input </legend>
+                    {{ form.sepal_length.label(class="form-control-label") }}<br>
+                    {{ form.sepal_length }}
+                    <br>
+                    {{ form.sepal_width.label(class="form-control-label") }}<br>
+                    {{ form.sepal_width }}
+                    <br>
+                    {{ form.petal_length.label(class="form-control-label") }}<br>
+                    {{ form.petal_length }}
+                    <br>
+                    {{ form.petal_width.label(class="form-control-label") }}<br>
+                    {{ form.petal_width }}
+
+            </fieldset>
+                    {{ form.submit(class = "btn btn-outline-info") }}
+        </form>
+    </div>
+    <br>
+
+
+        <div class="row">
+          <div  class=" font-weight-bold bg-success text-center mx-auto " >
+            {% if result %}
+              {{result}}
+            {% endif %}
+          </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+{%  endblock %}

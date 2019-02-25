@@ -5,47 +5,54 @@
     <div class="row">
       <h4 class="intro bg-info mx-auto"> Iris Data ML prediction model</h4>
     </div>
-
-
-
+    <br>
     <div class="text-center">
-      <form action = "" method = post>
-        {{ form.hidden_tag() }}
-           <fieldset class="form-group" >
+      <form action="{{ url_for('feature_input') }}" method = post>
+        {{ feature_form.hidden_tag() }}
+           <fieldset>
               <legend>Feature input </legend>
-                    {{ form.sepal_length.label(class="form-control-label") }}<br>
-                    {{ form.sepal_length }}
+                    {{ feature_form.sepal_length.label(class="form-control-label") }}<br>
+                    {{ feature_form.sepal_length }}
                     <br>
-                    {{ form.sepal_width.label(class="form-control-label") }}<br>
-                    {{ form.sepal_width }}
+                    {{ feature_form.sepal_width.label(class="form-control-label") }}<br>
+                    {{ feature_form.sepal_width }}
                     <br>
-                    {{ form.petal_length.label(class="form-control-label") }}<br>
-                    {{ form.petal_length }}
+                    {{ feature_form.petal_length.label(class="form-control-label") }}<br>
+                    {{ feature_form.petal_length }}
                     <br>
-                    {{ form.petal_width.label(class="form-control-label") }}<br>
-                    {{ form.petal_width }}
+                    {{ feature_form.petal_width.label(class="form-control-label") }}<br>
+                    {{ feature_form.petal_width }}
 
             </fieldset>
-                    {{ form.submit(class = "btn btn-outline-info") }}
+                                <br>
+                    {{ feature_form.submit(class = "btn btn-outline-info") }}
         </form>
     </div>
     <br>
+    <div class="row">
+      <div  class=" font-weight-bold bg-success text-center mx-auto " >
+        {% if result %}
 
+            {{result}}
 
-        <div class="row">
-          <div  class=" font-weight-bold bg-success text-center mx-auto " >
-            {% if result %}
-              {{result}}
-            {% endif %}
-          </div>
+        {% endif %}
+      </div>
+    </div>
 
-        </div>
-
-
-
-
-
-
+    <div class="text-right">
+      <form action="{{ url_for('file_upload') }}" method="post" enctype="multipart/form-data">
+        {{ file_form.hidden_tag() }}
+        <legend>Upload file here ! </legend>
+        {{ file_form.test_file }} <br>
+        {% if file_form.test_file.error %}
+          {% for error in file_form.test_file.error%}
+            <span class = "text-danger" >{error}</span>
+          {% endfor %}
+        {% endif %}
+        <br>
+        {{ file_form.submit(class = "btn btn-outline-info") }}
+      </form>
+    </div>
 
 
 

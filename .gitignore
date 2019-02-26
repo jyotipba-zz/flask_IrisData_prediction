@@ -1,3 +1,6 @@
 myven/
 __pycache__/
 prediction.txt
+
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*

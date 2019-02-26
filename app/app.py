@@ -38,7 +38,7 @@ def home():
     elif file_form.validate_on_submit() and file_form.upload.data:
         file = file_form.test_file.data #FileStorage object
         #data = file.read()
-        data= pd.read_csv(file,sep=' ', index_col=False)
+        data= pd.read_csv(file,sep=' ', delimiter=r"\s+",index_col=False)
         prediction = model.predict(data)
         prediction = prediction.astype(str)
         prediction[prediction == '0'] = 'setosa'

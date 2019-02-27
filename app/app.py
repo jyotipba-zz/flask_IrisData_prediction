@@ -16,7 +16,7 @@ def home():
     with open ("./static/final_svm_model.pkl",'rb') as pickle_file:
           model = pickle.load(pickle_file)
 
-    if feature_form.validate_on_submit() and feature_form.submit.data:
+    if feature_form.validate_on_submit():
         sepal_length= feature_form.sepal_length.data
         sepal_width = feature_form.sepal_width.data
         petal_length = feature_form.petal_length.data
@@ -35,17 +35,22 @@ def home():
 
         return render_template("home.html", feature_form=feature_form, file_form = file_form, result = predict_result)
 
-    elif file_form.validate_on_submit() and file_form.upload.data:
+    elif file_form.validate_on_submit():
         file = file_form.test_file.data #FileStorage object
-        #data = file.read()
-        data= pd.read_csv(file,sep=' ', delimiter=r"\s+",index_col=False)
-        prediction = model.predict(data)
+
+        try:
+            data= pd.read_csv(file,sep=' ', delimiter=r"\s+",index_col=False)
+            prediction = model.predict(data)
+
+        except Exception:
+            return  "Something went worng. PLEASE CHECK THE FILE AGAIN"
         prediction = prediction.astype(str)
         prediction[prediction == '0'] = 'setosa'
         prediction[prediction == '1'] = 'versicolor'
         prediction[prediction == '2'] = 'virginica'
         np.savetxt("./static/prediction.txt", prediction, fmt="%s")
         return redirect(url_for('predict_txt', filename="prediction.txt"))
+
     return render_template("home.html", feature_form=feature_form, file_form = file_form)
 
 

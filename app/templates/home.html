@@ -54,13 +54,18 @@
   <br>
 
 
-    <div class="row justify-content-center" >
-      <div  class=" font-weight-bold bg-success" >
-        {% if result %}
-          {{result}}
-        {% endif %}
+
+
+    {% if result %}
+      <div class="row justify-content-center">
+        <div class="col-sm-2">
+          <figure>
+            <img src= {{url_for("static", filename = "pictures/"+image_name)}} width="150" height="150" alt=result>
+            <figcaption>{{result}}</figcaption>
+          </figure>
+        </div>
       </div>
-    </div>
+    {% endif %}
 
 
 

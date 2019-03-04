@@ -5,6 +5,9 @@ import pickle
 import numpy as np
 import pandas as pd
 from werkzeug.utils import secure_filename
+from bing_image_search import search_image
+import uuid
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "flask machine learning model"
@@ -13,7 +16,7 @@ app.config['SECRET_KEY'] = "flask machine learning model"
 def home():
     feature_form = FeatureForm()
     file_form = FileForm()
-    with open ("./static/final_svm_model.pkl",'rb') as pickle_file:
+    with open ("static/final_svm_model.pkl",'rb') as pickle_file:
           model = pickle.load(pickle_file)
 
     if feature_form.validate_on_submit():
@@ -33,7 +36,11 @@ def home():
         else :
             predict_result = 'virginica'
 
-        return render_template("home.html", feature_form=feature_form, file_form = file_form, result = predict_result)
+        image_file_name = str(uuid.uuid4())
+        image_file = image_file_name + ".png"
+        search_image(predict_result, image_file)
+
+        return render_template("home.html", feature_form=feature_form, file_form = file_form, result = predict_result, image_name=image_file)
 
     elif file_form.validate_on_submit():
         file = file_form.test_file.data #FileStorage object
@@ -48,12 +55,16 @@ def home():
         prediction[prediction == '0'] = 'setosa'
         prediction[prediction == '1'] = 'versicolor'
         prediction[prediction == '2'] = 'virginica'
-        np.savetxt("./static/prediction.txt", prediction, fmt="%s")
-        return redirect(url_for('predict_txt', filename="prediction.txt"))
+
+        prediction_file_name = str(uuid.uuid4())
+        predict_result_file = prediction_file_name + ".txt"
+
+        np.savetxt("static/prediction/"+ predict_result_file, prediction, fmt="%s")
+        return redirect(url_for('predict_txt', filename=predict_result_file))
 
     return render_template("home.html", feature_form=feature_form, file_form = file_form)
 
 
 @app.route('/getPrediction/<filename>') #
 def predict_txt(filename):
-     return send_from_directory('./static',filename,as_attachment=True)
+     return send_from_directory('static/prediction',filename,as_attachment=True)

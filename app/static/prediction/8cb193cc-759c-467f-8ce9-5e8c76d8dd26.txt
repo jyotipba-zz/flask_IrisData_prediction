@@ -1,0 +1,4 @@
+virginica
+versicolor
+versicolor
+virginica

@@ -36,11 +36,11 @@ def home():
         else :
             predict_result = 'virginica'
 
-        image_file_name = str(uuid.uuid4())
-        image_file = image_file_name + ".png"
-        search_image(predict_result, image_file)
+        #image_file_name = str(uuid.uuid4())
+        #image_file = image_file_name + ".png"
+        #search_image(predict_result, image_file)
 
-        return render_template("home.html", feature_form=feature_form, file_form = file_form, result = predict_result, image_name=image_file)
+        return render_template("home.html", feature_form=feature_form, file_form = file_form, result = predict_result)
 
     elif file_form.validate_on_submit():
         file = file_form.test_file.data #FileStorage object

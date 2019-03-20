@@ -7,6 +7,7 @@ import pandas as pd
 from werkzeug.utils import secure_filename
 from bing_image_search import search_image
 import uuid
+import os
 
 
 app = Flask(__name__)
@@ -58,8 +59,7 @@ def home():
 
         prediction_file_name = str(uuid.uuid4())
         predict_result_file = prediction_file_name + ".txt"
-
-        np.savetxt("static/prediction/"+ predict_result_file, prediction, fmt="%s")
+        np.savetxt("static/prediction/"+ predict_result_file,  prediction, newline="\r\n" , fmt="%s")
         return redirect(url_for('predict_txt', filename=predict_result_file))
 
     return render_template("home.html", feature_form=feature_form, file_form = file_form)
